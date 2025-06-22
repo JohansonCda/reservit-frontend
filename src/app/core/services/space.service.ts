@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Type {
   name: string;
@@ -28,30 +29,32 @@ export interface Space {
   providedIn: 'root'
 })
 export class SpaceService {
+  private baseUrl = `${environment.apiUrl}/api/spaces`;
+
   constructor(private http: HttpClient) {}
 
   getSpaces(): Observable<{ member: Space[] }> {
-    return this.http.get<{ member: Space[] }>('/api/spaces');
+    return this.http.get<{ member: Space[] }>(this.baseUrl);
   }
 
   getSpace(id: number): Observable<Space> {
-    return this.http.get<Space>(`/api/spaces/${id}`);
+    return this.http.get<Space>(`${this.baseUrl}/${id}`);
   }
 
   createSpace(space: Partial<Space>): Observable<Space> {
-    return this.http.post<Space>('/api/spaces', space, {
+    return this.http.post<Space>(this.baseUrl, space, {
       headers: { 'Content-Type': 'application/ld+json' }
     });
   }
 
   updateSpace(id: number, space: Partial<Space>): Observable<Space> {
-    return this.http.patch<Space>(`/api/spaces/${id}`, space, {
+    return this.http.patch<Space>(`${this.baseUrl}/${id}`, space, {
       headers: { 'Content-Type': 'application/merge-patch+json' }
     });
   }
 
   deleteSpace(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/spaces/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
   async getEnrichedSpaces(): Promise<Space[]> {
@@ -63,7 +66,7 @@ export class SpaceService {
 
         for (const resIri of space.reservations || []) {
           try {
-            const res = await lastValueFrom(this.http.get<Reservation>(resIri));
+            const res = await lastValueFrom(this.http.get<Reservation>(`${environment.apiUrl}${resIri}`));
             reservations.push(res);
           } catch (err) {
             console.warn(`No se pudo cargar la reserva ${resIri}`);

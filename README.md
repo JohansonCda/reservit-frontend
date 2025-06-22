@@ -18,7 +18,7 @@ cd reservit-frontend
 # Instalar dependencias
 npm install
 
-#Iniciar el proyecto, debe ser npm ya que se inicia el servidor con el proxy.conf.json que apunta al backend
+#Iniciar el proyecto, debe ser npm ya que se inicia el servidor con el proxy.conf.json si no funcionan los environments para el backend
 npm start
 
 ```

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../../../environments/environment';
 
 export interface JwtPayload {
   username: string;
@@ -17,7 +18,10 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<{ token: string }>('/api/login_check', { email, password }).pipe(
+    return this.http.post<{ token: string }>(
+      `${environment.apiUrl}/api/login_check`,
+      { email, password }
+    ).pipe(
       tap(response => {
         localStorage.setItem(this.tokenKey, response.token);
       })
