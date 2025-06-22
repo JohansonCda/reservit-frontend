@@ -1,0 +1,30 @@
+<h2>Editar Reserva</h2>
+
+<mat-card *ngIf="!loading">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Nombre de la reserva</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Inicio</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="startTime">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Fin</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="endTime">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+      <button mat-raised-button color="primary" type="submit">Guardar</button>
+      <button mat-button color="warn" (click)="goBack()">Cancelar</button>
+    </div>
+  </form>
+</mat-card>

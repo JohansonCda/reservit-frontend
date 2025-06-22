@@ -1,0 +1,20 @@
+.login-card {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+    margin: 10px 0;
+    text-align: center;
+  }
+}

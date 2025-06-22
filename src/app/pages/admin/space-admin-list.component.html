@@ -1,0 +1,20 @@
+
+
+<button mat-raised-button color="primary" [routerLink]="['/admin/spaces/create']">
+  Crear nuevo espacio
+</button>
+<button mat-button color="primary" (click)="goBack()">
+  ← Volver al listado
+</button>
+
+<mat-card *ngFor="let space of spaces">
+  <mat-card-title>{{ space.name }}</mat-card-title>
+  <mat-card-content>
+    <p>Capacidad: {{ space.capacity }}</p>
+    <p>Precio: ${{ space.pricePerHour }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button [routerLink]="['/admin/spaces/edit', space.id]">Editar</button>
+    <button mat-button color="warn" (click)="deleteSpace(space.id)">Eliminar</button>
+  </mat-card-actions>
+</mat-card>

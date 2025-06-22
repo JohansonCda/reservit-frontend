@@ -1,0 +1,84 @@
+<button mat-button color="primary" (click)="goBack()">
+  ← Volver al listado
+</button>
+
+<mat-card *ngIf="space">
+  <mat-card-title>{{ space.name }}</mat-card-title>
+  <mat-card-content>
+    <p><strong>Descripción:</strong> {{ space.description }}</p>
+    <p><strong>Precio por hora:</strong> ${{ space.pricePerHour }}</p>
+    <p><strong>Capacidad:</strong> {{ space.capacity }}</p>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="space?.photos?.length > 0" style="margin-top: 1rem;">
+  <mat-card-title>Fotos del espacio</mat-card-title>
+  <mat-card-content>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+      <img *ngFor="let photo of space.photos"
+           [src]="photo"
+           alt="Foto del espacio"
+           style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px;">
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card style="margin-top: 1rem;">
+  <mat-card-title>Reservar este espacio</mat-card-title>
+  <mat-card-content>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Nombre del evento o reservación</mat-label>
+      <input
+        matInput
+        [(ngModel)]="reservation.name"
+        name="name"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Fecha</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="reservation.date"
+        name="date"
+        required
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Hora de inicio</mat-label>
+      <input
+        matInput
+        type="time"
+        [(ngModel)]="reservation.startTime"
+        name="startTime"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Hora de fin</mat-label>
+      <input
+        matInput
+        type="time"
+        [(ngModel)]="reservation.endTime"
+        name="endTime"
+        required
+      />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="makeReservation()"
+      [disabled]="!reservation.date || !reservation.startTime || !reservation.endTime"
+    >
+      Reservar
+    </button>
+  </mat-card-content>
+</mat-card>

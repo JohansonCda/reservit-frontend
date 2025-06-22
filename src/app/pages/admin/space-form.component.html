@@ -1,0 +1,102 @@
+<h2>{{ isEdit ? 'Editar espacio' : 'Crear espacio' }}</h2>
+
+<form (ngSubmit)="onSubmit()" #spaceForm="ngForm">
+
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Nombre</mat-label>
+    <input
+      matInput
+      [(ngModel)]="space.name"
+      name="name"
+      required
+      minlength="3"
+      #name="ngModel"
+    />
+    <mat-error *ngIf="name.invalid && name.touched">Nombre requerido (mínimo 3 caracteres)</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Descripción</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="space.description"
+      name="description"
+      required
+      minlength="5"
+      #description="ngModel"
+    ></textarea>
+    <mat-error *ngIf="description.invalid && description.touched">Descripción requerida</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Precio por hora</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="space.pricePerHour"
+      name="pricePerHour"
+      required
+      min="0"
+      #price="ngModel"
+    />
+    <mat-error *ngIf="price.invalid && price.touched">Precio válido requerido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Capacidad</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="space.capacity"
+      name="capacity"
+      required
+      min="1"
+      #capacity="ngModel"
+    />
+    <mat-error *ngIf="capacity.invalid && capacity.touched">Capacidad mínima: 1</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Tipo</mat-label>
+    <mat-select
+      [(ngModel)]="space.type"
+      name="type"
+      required
+      #type="ngModel"
+    >
+      <mat-option *ngFor="let t of availableTypes" [value]="'/api/types/' + t.id">
+        {{ t.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="type.invalid && type.touched">Tipo requerido</mat-error>
+  </mat-form-field>
+
+  <label><strong>Fotos (URLs)</strong></label>
+<div *ngIf="space.photos">
+  <div *ngFor="let photo of space.photos; let i = index">
+    <mat-form-field appearance="fill" style="flex: 1;">
+      <input
+        matInput
+        [(ngModel)]="space.photos[i]"
+        name="photo{{ i }}"
+        placeholder="https://ejemplo.com/foto.jpg"
+      />
+    </mat-form-field>
+    <button mat-mini-button color="warn" (click)="removePhotoField(i)" type="button">🗑️</button>
+  </div>
+</div>
+
+<button mat-button color="accent" type="button" (click)="addPhotoField()">Agregar otra foto</button>
+
+  <div class="mt-6 flex gap-4">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="spaceForm.invalid"
+    >
+      {{ isEdit ? 'Actualizar' : 'Crear' }} espacio
+    </button>
+    <button mat-button color="warn" type="button" (click)="goBack()">Cancelar</button>
+  </div>
+</form>

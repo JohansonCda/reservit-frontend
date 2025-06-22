@@ -1,0 +1,28 @@
+<button mat-button color="primary" (click)="goBack()">
+  ← Volver al listado
+</button>
+
+<h2>Mis Reservas</h2>
+
+<div *ngIf="loading">Cargando reservas...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<mat-card *ngFor="let res of reservations" style="margin-bottom: 1rem;">
+  <mat-card-title>{{ res.name }}</mat-card-title>
+  <mat-card-content>
+    <p><strong>Inicio:</strong> {{ res.startTime | date:'short' }}</p>
+    <p><strong>Fin:</strong> {{ res.endTime | date:'short' }}</p>
+    <p><strong>Espacio:</strong> {{ res.spaceName || 'Desconocido' }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary" (click)="editReservation(res.id!)">Editar</button>
+
+    <ng-container *ngIf="isAdmin; else solicitarCancelacion">
+      <button mat-button color="warn" (click)="cancelReservation(res.id!)">Cancelar</button>
+    </ng-container>
+
+    <ng-template #solicitarCancelacion>
+      <button mat-button color="warn" (click)="requestCancellation(res.id!)">Solicitar cancelación</button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

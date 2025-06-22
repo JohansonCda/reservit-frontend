@@ -1,0 +1,43 @@
+<h2>Espacios Disponibles</h2>
+
+<mat-card style="margin-bottom: 1rem;">
+  <mat-form-field appearance="fill">
+    <mat-label>Tipo</mat-label>
+    <mat-select [(ngModel)]="filters.type" (selectionChange)="applyFilters()">
+      <mat-option value="">Todos</mat-option>
+      <mat-option *ngFor="let type of availableTypes" [value]="'/api/types/' + type.id">
+        {{ type.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Capacidad mínima</mat-label>
+    <input matInput type="number" [(ngModel)]="filters.minCapacity" (input)="applyFilters()" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Fecha de disponibilidad</mat-label>
+    <input matInput [matDatepicker]="datePicker" [(ngModel)]="filters.date" (dateChange)="applyFilters()" />
+    <mat-datepicker-toggle matSuffix [for]="datePicker" />
+    <mat-datepicker #datePicker></mat-datepicker>
+  </mat-form-field>
+</mat-card>
+
+<div *ngIf="loading">Cargando espacios...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<div *ngIf="!loading && filteredSpaces.length > 0">
+ <mat-card
+  *ngFor="let space of filteredSpaces"
+  class="space-card"
+  (click)="goToDetail(space.id)"
+  style="margin: 1rem 0; cursor: pointer;"
+>
+  <mat-card-title>{{ space.name }}</mat-card-title>
+  <mat-card-content>
+    <p><strong>Descripción:</strong> {{ space.description }}</p>
+    <p><strong>Precio por hora:</strong> ${{ space.pricePerHour }}</p>
+  </mat-card-content>
+</mat-card>
+</div>

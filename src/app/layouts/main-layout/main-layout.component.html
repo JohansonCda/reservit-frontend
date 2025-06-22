@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <span>Reservit</span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/my-reservations">Mis Reservas</button>
+  <ng-container *ngIf="isAdmin">
+    <button mat-button [routerLink]="['/admin/spaces']">Administrar Espacios</button>
+  </ng-container>
+  <span class="spacer"></span>
+  <button mat-button (click)="logout()">Cerrar sesión</button>
+</mat-toolbar>
+
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
