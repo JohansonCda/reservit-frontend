@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "reservit-backend.up.railway.app",
+    "target": "http://localhost:8000",
     "secure": false,
     "changeOrigin": true
   }
