@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { ReservationService } from '../../core/services/reservation.service';
 import { NotificationService } from '../../core/services/notification.service';
+import { SpaceService } from '../../core/services/space.service';
 
 @Component({
   selector: 'app-space-detail',
@@ -42,15 +43,15 @@ export class SpaceDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
     private router: Router,
     private reservationService: ReservationService,
+    private spaceService: SpaceService,
     private notification: NotificationService
   ) {}
 
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.http.get(`/api/spaces/${id}`).subscribe({
+  ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.spaceService.getSpace(id).subscribe({
       next: (data) => {
         this.space = data;
         this.loading = false;
@@ -88,7 +89,6 @@ export class SpaceDetailComponent implements OnInit {
     this.reservationService.createReservation(payload).subscribe({
       next: () => {
         this.notification.success('Reserva realizada con éxito');
-        //this.router.navigate(['/reservations']);
       },
       error: (err) => {
         console.error(err.error.detail);
